@@ -23,5 +23,35 @@ namespace StudentApi.Repository
         {
             return await _context.Student.ToListAsync();
         }
+
+        public async Task<Student> GetByIdAsync(int id)
+        {
+            List<Student> cars = await _context.Student.ToListAsync();
+
+            for (int i = 0; i < cars.Count; i++)
+            {
+                if (cars[i].Id == id) return cars[i];
+            }
+
+            return null;
+        }
+
+        public async Task<Student> GetByNameAsync(string name)
+        {
+            List<Student> allcars = await _context.Student.ToListAsync();
+
+            for (int i = 0; i < allcars.Count; i++)
+            {
+                if (allcars[i].Name.Equals(name))
+                {
+                    return allcars[i];
+                }
+            }
+
+            return null;
+        }
+
+
+
     }
 }
