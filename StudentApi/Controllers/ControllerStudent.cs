@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using StudentApi.Models;
 using StudentApi.Repository.interfaces;
+using System;
 
 namespace StudentApi.Controllers
 {
@@ -28,6 +29,20 @@ namespace StudentApi.Controllers
         }
 
 
+        [HttpGet("/findById")]
+        public async Task<ActionResult<Student>> GetById([FromQuery] int id)
+        {
+            var student = await _Repository.GetByIdAsync(id);
+            return Ok(student);
+        }
+
+
+        [HttpGet("/find/{name}")]
+        public async Task<ActionResult<Student>> GetByNameRoute([FromRoute] string name)
+        {
+            var student = await _Repository.GetByNameAsync(name);
+            return Ok(student);
+        }
 
     }
 }
