@@ -71,6 +71,93 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "Delete",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:7224/deleteById?id=8",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "7224",
+					"path": [
+						"deleteById"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "8"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"grade\": 19\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:7224/update?id=7",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "7224",
+					"path": [
+						"update"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "7"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"grade\": 12,\r\n  \"age\": 18,\r\n  \"name\": \"test2\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:7224/create",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "7224",
+					"path": [
+						"create"
+					]
+				}
+			},
+			"response": []
 		}
 	]
 }
