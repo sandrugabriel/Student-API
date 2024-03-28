@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using StudentApi.Data;
+using StudentApi.Dto;
 using StudentApi.Models;
 using StudentApi.Repository.interfaces;
 using System;
@@ -52,6 +53,46 @@ namespace StudentApi.Repository
         }
 
 
+        public async Task<Student> Create(CreateRequest request)
+        {
+
+            var student = _mapper.Map<Student>(request);
+
+            _context.Student.Add(student);
+
+            await _context.SaveChangesAsync();
+
+            return student;
+
+        }
+
+        public async Task<Student> Update(int id, UpdateRequest request)
+        {
+
+            var student = await _context.Student.FindAsync(id);
+
+            student.Name = request.Name ?? student.Name;
+            student.Age = request.Age ?? student.Age;
+            student.Grade = request.Grade ?? student.Grade;
+
+            _context.Student.Update(student);
+
+            await _context.SaveChangesAsync();
+
+            return student;
+
+        }
+
+        public async Task<Student> DeleteById(int id)
+        {
+            var student = await _context.Student.FindAsync(id);
+
+            _context.Student.Remove(student);
+
+            await _context.SaveChangesAsync();
+
+            return student;
+        }
 
     }
 }

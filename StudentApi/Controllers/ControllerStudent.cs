@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using StudentApi.Dto;
 using StudentApi.Models;
 using StudentApi.Repository.interfaces;
 using System;
@@ -43,6 +44,30 @@ namespace StudentApi.Controllers
             var student = await _Repository.GetByNameAsync(name);
             return Ok(student);
         }
+
+
+        [HttpPost("/create")]
+        public async Task<ActionResult<Student>> Create([FromBody] CreateRequest request)
+        {
+            var student = await _Repository.Create(request);
+            return Ok(student);
+
+        }
+
+        [HttpPut("/update")]
+        public async Task<ActionResult<Student>> Update([FromQuery] int id, [FromBody] UpdateRequest request)
+        {
+            var student = await _Repository.Update(id, request);
+            return Ok(student);
+        }
+
+        [HttpDelete("/deleteById")]
+        public async Task<ActionResult<Student>> DeleteCarById([FromQuery] int id)
+        {
+            var student = await _Repository.DeleteById(id);
+            return Ok(student);
+        }
+
 
     }
 }
