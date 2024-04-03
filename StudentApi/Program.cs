@@ -3,6 +3,8 @@ using Microsoft.EntityFrameworkCore;
 using StudentApi.Data;
 using StudentApi.Repository;
 using StudentApi.Repository.interfaces;
+using StudentApi.Service;
+using StudentApi.Service.interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,6 +15,8 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<IRepositoryStudent, RepositoryStudent>();
+builder.Services.AddScoped<ICommandService,CommandService>();
+builder.Services.AddScoped<IQueryService, QueryService>();
 
 builder.Services.AddDbContext<AppDbContext>(option => option.UseMySql(builder.Configuration.GetConnectionString("Default")!,
     new MySqlServerVersion(new Version(8, 0, 6))));

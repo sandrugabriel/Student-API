@@ -1,72 +1,116 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using StudentApi.Controllers.interfaces;
 using StudentApi.Dto;
+using StudentApi.Exceptions;
 using StudentApi.Models;
 using StudentApi.Repository.interfaces;
+using StudentApi.Service.interfaces;
 using System;
 
 namespace StudentApi.Controllers
 {
 
-    [ApiController]
-    [Route("api/v1/students")]
-    public class ControllerStudent : ControllerBase
+    public class ControllerStudent : ControllerAPI
     {
 
-        private readonly ILogger<ControllerStudent> _logger;
 
-        private IRepositoryStudent _Repository;
+        private IQueryService _queryService;
+        private ICommandService _commandService;
 
-        public ControllerStudent(ILogger<ControllerStudent> logger, IRepositoryStudent Repository)
+        public ControllerStudent(IQueryService queryService, ICommandService commandService)
         {
-            _logger = logger;
-            _Repository = Repository;
+            _queryService = queryService;
+            _commandService = commandService;
         }
 
-        [HttpGet("")]
-        public async Task<ActionResult<IEnumerable<Student>>> GetAll()
+        public override async Task<ActionResult<List<Student>>> GetAll()
         {
-            var products = await _Repository.GetAllAsync();
-            return Ok(products);
+            try
+            {
+                var students = await _queryService.GetAll();
+
+                return Ok(students);
+
+            }
+            catch (ItemsDoNotExist ex)
+            {
+                return NotFound(ex.Message);
+            }
         }
 
-
-        [HttpGet("/findById")]
-        public async Task<ActionResult<Student>> GetById([FromQuery] int id)
+        public override async Task<ActionResult<Student>> GetByName([FromQuery] string name)
         {
-            var student = await _Repository.GetByIdAsync(id);
-            return Ok(student);
-        }
 
-
-        [HttpGet("/find/{name}")]
-        public async Task<ActionResult<Student>> GetByNameRoute([FromRoute] string name)
-        {
-            var student = await _Repository.GetByNameAsync(name);
-            return Ok(student);
-        }
-
-
-        [HttpPost("/create")]
-        public async Task<ActionResult<Student>> Create([FromBody] CreateRequest request)
-        {
-            var student = await _Repository.Create(request);
-            return Ok(student);
+            try
+            {
+                var student = await _queryService.GetByNameAsync(name);
+                return Ok(student);
+            }
+            catch (ItemDoesNotExist ex)
+            {
+                return NotFound(ex.Message);
+            }
 
         }
 
-        [HttpPut("/update")]
-        public async Task<ActionResult<Student>> Update([FromQuery] int id, [FromBody] UpdateRequest request)
+        public override async Task<ActionResult<Student>> GetById([FromQuery] int id)
         {
-            var student = await _Repository.Update(id, request);
-            return Ok(student);
+
+            try
+            {
+                var student = await _queryService.GetById(id);
+                return Ok(student);
+            }
+            catch (ItemDoesNotExist ex)
+            {
+                return NotFound(ex.Message);
+            }
+
         }
 
-        [HttpDelete("/deleteById")]
-        public async Task<ActionResult<Student>> DeleteCarById([FromQuery] int id)
+        public override async Task<ActionResult<Student>> CreateStudent(CreateRequest request)
         {
-            var student = await _Repository.DeleteById(id);
-            return Ok(student);
+            try
+            {
+                var student = await _commandService.Create(request);
+                return Ok(student);
+            }
+            catch (InvalidAge ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
+
+        public override async Task<ActionResult<Student>> UpdateStudent([FromQuery] int id, UpdateRequest request)
+        {
+            try
+            {
+                var student = await _commandService.Update(id, request);
+                return Ok(student);
+            }
+            catch (InvalidAge ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (ItemDoesNotExist ex)
+            {
+                return NotFound(ex.Message);
+            }
+        }
+
+        public override async Task<ActionResult<Student>> DeleteStudent([FromQuery] int id)
+        {
+            try
+            {
+                var student = await _commandService.Delete(id);
+                return Ok(student);
+            }
+            catch (ItemDoesNotExist ex)
+            {
+                return NotFound(ex.Message);
+            }
+        }
+
 
 
     }
