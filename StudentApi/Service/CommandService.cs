@@ -56,7 +56,7 @@ namespace StudentApi.Service
             {
                 throw new ItemDoesNotExist(Constants.Constants.ItemDoesNotExist);
             }
-            student = await _repository.DeleteById(id);
+            await _repository.DeleteById(id);
             return student;
         }
     }
