@@ -40,7 +40,7 @@ namespace StudentApi.Service
             }
 
 
-            if (student.Age <= 0)
+            if (request.Age <= 0)
             {
                 throw new InvalidAge(Constants.Constants.InvalidAge);
             }
