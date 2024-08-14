@@ -5,38 +5,38 @@ using StudentApi.Models;
 namespace StudentApi.Controllers.interfaces
 {
     [ApiController]
-    [Route("api/v1/[controller]")]
+    [Route("api/v1/[controller]/")]
     public abstract class ControllerAPI : ControllerBase
     {
 
 
-        [HttpGet("/all")]
+        [HttpGet("All")]
         [ProducesResponseType(statusCode: 200, type: typeof(List<Student>))]
         [ProducesResponseType(statusCode: 400, type: typeof(String))]
         public abstract Task<ActionResult<List<Student>>> GetAll();
 
-        [HttpGet("/findById")]
+        [HttpGet("FindById")]
         [ProducesResponseType(statusCode: 200, type: typeof(Student))]
         [ProducesResponseType(statusCode: 400, type: typeof(String))]
         public abstract Task<ActionResult<Student>> GetById([FromQuery] int id);
 
-        [HttpGet("/findByName")]
+        [HttpGet("FindByName")]
         [ProducesResponseType(statusCode: 200, type: typeof(Student))]
         [ProducesResponseType(statusCode: 400, type: typeof(String))]
         public abstract Task<ActionResult<Student>> GetByName([FromQuery] string name);
 
-        [HttpPost("/createStudent")]
+        [HttpPost("CreateStudent")]
         [ProducesResponseType(statusCode: 201, type: typeof(Student))]
         [ProducesResponseType(statusCode: 400, type: typeof(String))]
         public abstract Task<ActionResult<Student>> CreateStudent(CreateRequest request);
 
-        [HttpPut("/updateStudent")]
+        [HttpPut("UpdateStudent")]
         [ProducesResponseType(statusCode: 200, type: typeof(Student))]
         [ProducesResponseType(statusCode: 400, type: typeof(String))]
         [ProducesResponseType(statusCode: 404, type: typeof(String))]
         public abstract Task<ActionResult<Student>> UpdateStudent([FromQuery] int id, UpdateRequest request);
 
-        [HttpDelete("/deleteStudent")]
+        [HttpDelete("DeleteStudent")]
         [ProducesResponseType(statusCode: 200, type: typeof(Student))]
         [ProducesResponseType(statusCode: 404, type: typeof(String))]
         public abstract Task<ActionResult<Student>> DeleteStudent([FromQuery] int id);
